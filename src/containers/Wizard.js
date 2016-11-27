@@ -1,29 +1,39 @@
-import React, { Component } from 'react';
-import AddProcessStep1 from './AddProcessStep1'
-import injectTapEventPlugin from 'react-tap-event-plugin'
-// Needed for onTouchTap
-// http://stackoverflow.com/a/34015469/988941
-injectTapEventPlugin();
+import React, { Component, PropTypes } from 'react';
+import WizardFormFirstPage from './WizardFormFirstPage'
+import WizardFormSecondPage from './WizardFormSecondPage'
+import WizardFormThirdPage from './WizardFormThirdPage'
 
-class componentName extends Component {
-
-    constructor() {
-        super()
-        this.state = {
-            name: 'initial name',
-            description: 'initial description',
-            acronym: 'initial acronym',
-            type: 'inital type'
-        }
+class Wizard extends Component {
+ constructor(props) {
+    super(props)
+    this.nextPage = this.nextPage.bind(this)
+    this.previousPage = this.previousPage.bind(this)
+    this.state = {
+      page: 1
     }
+  }
+  nextPage() {
+    this.setState({ page: this.state.page + 1 })
+  }
 
-    render() {
-        return (
-            <div>
-                <AddProcessStep1 state={this.state} />
-            </div>
-        );
-    }
+  previousPage() {
+    this.setState({ page: this.state.page - 1 })
+  }
+
+  render() {
+    const { onSubmit } = this.props
+    const { page } = this.state
+    return (<div>
+        {page === 1 && <WizardFormFirstPage onSubmit={this.nextPage}/>}
+        {page === 2 && <WizardFormSecondPage previousPage={this.previousPage} onSubmit={this.nextPage}/>}
+        {page === 3 && <WizardFormThirdPage previousPage={this.previousPage} onSubmit={onSubmit}/>}
+      </div>
+    )
+  }
 }
 
-export default componentName;
+Wizard.propTypes = {
+  onSubmit: PropTypes.func.isRequired
+}
+
+export default Wizard;

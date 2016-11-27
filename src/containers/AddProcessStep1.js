@@ -28,10 +28,9 @@ class AddProcessStep1 extends Component {
         let obj = {}
         obj[e.target.id] = e.target.value
         //console.log(obj)
-
-        console.log(store.getState())
-        store.dispatch(addToObject(obj))
-        console.log(store.getState())
+        //console.log(store.getState())
+        //store.dispatch(addToObject(obj))
+        //console.log(store.getState())
         // console.log('handleChange')
     }
 
